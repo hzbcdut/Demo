@@ -25,6 +25,7 @@ public class GenerateValueFiles {
      */
     private final static String VALUE_TEMPLATE = "values-{0}x{1}";
 
+    // 要支持的分辨率都可以写在这里
     private static final String SUPPORT_DIMESION = "320,480;480,800;480,854;540,960;600,1024;720,1184;720,1196;720,1280;768,1024;768,1280;800,1280;1080,1812;1080,1920;1440,2560;";
 
     private String supportStr = SUPPORT_DIMESION;
@@ -33,6 +34,7 @@ public class GenerateValueFiles {
         this.baseW = baseX;
         this.baseH = baseY;
 
+        // 根据输入的分辨率是否包含在默认的分辨率中
         if (!this.supportStr.contains(baseX + "," + baseY)) {
             this.supportStr += baseX + "," + baseY + ";";
         }
@@ -57,6 +59,7 @@ public class GenerateValueFiles {
      */
     private String validateInput(String supportStr) {
         StringBuffer sb = new StringBuffer();
+        // 根据_来切割 分出相应的分辨率 如 1080，1920
         String[] vals = supportStr.split("_");
         int w = -1;
         int h = -1;
@@ -88,6 +91,11 @@ public class GenerateValueFiles {
 
     }
 
+    /**
+     * 根据宽高来生成文件
+     * @param w
+     * @param h
+     */
     private void generateXmlFile(int w, int h) {
 
         StringBuffer sbForWidth = new StringBuffer();
@@ -117,11 +125,12 @@ public class GenerateValueFiles {
                 h + ""));
         sbForHeight.append("</resources>");
 
+        // 生成文件目录， 根据文件名的格式来替换成相应分辨率的名字
         File fileDir = new File(dirStr + File.separator
                 + VALUE_TEMPLATE.replace("{0}", h + "")//
                 .replace("{1}", w + ""));
         fileDir.mkdir();
-
+        // 生成宽度和高度两个方向的xml文件
         File layxFile = new File(fileDir.getAbsolutePath(), "lay_x.xml");
         File layyFile = new File(fileDir.getAbsolutePath(), "lay_y.xml");
         try {
@@ -142,8 +151,9 @@ public class GenerateValueFiles {
     }
 
     public static void main(String[] args) {
-        int baseW = 320;
-        int baseH = 480;
+        // 默认基准 1080*1920 的手机
+        int baseW = 1080;
+        int baseH = 1920;
         String addition = "";
         try {
             if (args.length >= 3) {
