@@ -1,5 +1,6 @@
 package com.example.navigationbardemo;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
        int navigationBarHeight =  NavigationBarUtil.getNavigationBarHeight(this);
         Log.d("debug", " --> navigationBarHeight = " + navigationBarHeight);
 
-        NavigationBarUtil.hideBottomUIMenu(this);
+//        NavigationBarUtil.hideBottomUIMenu(this);
+
+        NavigationBarUtil.setNavigationBottom(this, Color.parseColor("#00000000"));
     }
 }
